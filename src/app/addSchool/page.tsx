@@ -31,6 +31,7 @@ const schema = z.object({
 
 export default function Home() {
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     register,
     handleSubmit,
@@ -64,6 +65,7 @@ export default function Home() {
     formData.append("state", data.state);
     formData.append("contact", data.contact);
     formData.append("image", data.image);
+    setIsSubmitting(true);
     try {
       const res = await fetch("/api/addSchool", {
         method: "POST",
@@ -78,12 +80,14 @@ export default function Home() {
       }
     } catch {
       toast.error("Error submitting form.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <motion.div
-      className="min-h-screen flex lg:flex-row flex-col items-center justify-end bg-gray-100 p-4 relative"
+      className="min-h-screen flex lg:flex-row flex-col items-center justify-end bg-gradient-to-br from-[var(--primary)]/5 to-[var(--secondary)]/20 p-4 relative"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
@@ -221,7 +225,7 @@ export default function Home() {
             <AnimatePresence>
               {errors.name && (
                 <motion.p
-                  className="text-sm text-red-500 mt-1 border-2"
+                  className="text-sm text-red-500 mt-1"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
@@ -414,14 +418,19 @@ export default function Home() {
         bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] text-white 
         hover:scale-105 hover:shadow-lg
         focus:ring-4 focus:ring-[var(--secondary)] 
-        transition-all duration-200 shadow-md"
+        transition-all duration-200 shadow-md flex items-center justify-center gap-2"
             whileHover={{ scale: 1.07 }}
             whileTap={{ scale: 0.97 }}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.55, duration: 0.4 }}
+            disabled={isSubmitting}
           >
-            Add School
+            {isSubmitting ? (
+              <span className="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+            ) : (
+              "Add School"
+            )}
           </motion.button>
         </motion.div>
       </motion.form>

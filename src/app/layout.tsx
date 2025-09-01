@@ -31,23 +31,6 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Pratham Singh", url: "https://github.com/PrathamS1" }],
   creator: "Pratham Singh",
-  openGraph: {
-    title: "EduConnect | School Management Mini Project",
-    description:
-      "A modern, responsive web app to add, discover, and manage schools.",
-    url: "https://your-deployment-url.com",
-    siteName: "EduConnect",
-    images: [
-      {
-        url: "/schoolbg.jpg",
-        width: 1200,
-        height: 630,
-        alt: "EduConnect Hero",
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
 };
 
 export default function RootLayout({
